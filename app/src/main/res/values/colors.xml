@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorViolet">#cb42f4</color>
+    <color name="coloBlack">#000000</color>
+    <color name="colorYellow">#f4ee42</color>
+    <color name="mainBackground">#ADD8E6</color>
+    <color name="buttonBackground">#e59372</color>
+    <color name="menu">#e8e6d7</color>
+    <color name="textFieldBackground">#a0d3d6</color>
+
+
+</resources>

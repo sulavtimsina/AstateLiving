@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.adgal.astateliving.activities.IntroViewFlipper">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <ViewFlipper
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/viewFlipper">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView1"
+                android:scaleType="centerCrop"
+                android:src="@drawable/picture1"/>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView2"
+                android:scaleType="centerCrop"
+                android:src="@drawable/picture2"/>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView3"
+                android:scaleType="centerCrop"
+                android:src="@drawable/picture3"/>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView4"
+                android:scaleType="centerCrop"
+                android:src="@drawable/picture4"/>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView5"
+                android:scaleType="centerCrop"
+                android:src="@drawable/picture5"/>
+            <Button
+                android:id="@+id/btnEnterApp"
+                android:text="Click Me to Enter App"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"></Button>
+
+
+
+        </ViewFlipper>
+    </LinearLayout>
+</RelativeLayout>

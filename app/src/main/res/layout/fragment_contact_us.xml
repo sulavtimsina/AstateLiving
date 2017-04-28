@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mainBackground"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/contact_form_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="5dp"
+            android:text="Contact Astate-Living Team"
+            android:textColor="#ce3232"
+            android:textSize="25sp"
+            android:typeface="serif" />
+
+        <EditText
+            android:id="@+id/nameContact"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:hint="Name"
+            android:inputType="none" />
+
+        <EditText
+            android:id="@+id/emailContact"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:inputType="none"
+            android:hint="Email" />
+
+        <EditText
+            android:id="@+id/phoneContact"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:hint="Phone"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/messageContact"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/textFieldBackground"
+            android:gravity="top"
+            android:hint="Your Message"
+            android:fitsSystemWindows="true"
+            android:breakStrategy="balanced"
+            android:inputType="textMultiLine"
+            android:imeOptions="actionSend"
+            android:singleLine="false"
+            android:padding="5dp" />
+
+        <Button
+            android:id="@+id/submitContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:elevation="20dp"
+            android:paddingLeft="70dp"
+            android:paddingRight="70dp"
+            android:text="@string/submit"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:layout_weight="0.08" />
+    </LinearLayout>

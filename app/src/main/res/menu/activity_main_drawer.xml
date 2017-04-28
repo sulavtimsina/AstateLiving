@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_watchlist"
+            android:icon="@drawable/visible_48px"
+            android:title="My Watchlist" />
+        <item
+            android:id="@+id/nav_notifications"
+            android:icon="@drawable/notifications"
+            android:title="Notifications" />
+        <item
+            android:id="@+id/nav_room_mate"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Need Room Mate" />
+        <item
+            android:id="@+id/nav_mgr_login"
+            android:icon="@drawable/manager_48px"
+            android:title="Manager Login"/>
+        <item
+            android:id="@+id/nav_mgr_input"
+            android:icon="@drawable/manager_48px"
+            android:title="Manager Input"/>
+
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/search_48px"
+            android:title="My Search" />
+    </group>
+
+    <item android:title="Settings">
+        <menu>
+            <item
+                android:id="@+id/nav_gen_setting"
+                android:icon="@drawable/ic_menu_send"
+                android:title="General Setting" />
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Profile" />
+            <item
+                android:id="@+id/nav_contact_us"
+                android:icon="@drawable/phone_48px_1"
+                android:title="Contact Us" />
+            <item
+                android:id="@+id/nav_log_out"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Log Out" />
+
+        </menu>
+    </item>
+
+</menu>

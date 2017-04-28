@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "14003724817",
+    "firebase_url": "https://astate-living.firebaseio.com",
+    "project_id": "astate-living",
+    "storage_bucket": "astate-living.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14003724817:android:d1611cd267dd6fb4",
+        "android_client_info": {
+          "package_name": "com.example.adgal.astateliving"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "14003724817-fukdtge707v9bfmm2ihin9n9bh6m5pk6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.adgal.astateliving",
+            "certificate_hash": "088fe5cef0f7e6ac240b00b082af4d3fbd8585bc"
+          }
+        },
+        {
+          "client_id": "14003724817-4llmo8njdtobo0ifi2cvpg4di62clhgt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.adgal.astateliving",
+            "certificate_hash": "6bcf7ff16026aca6c6f92a5c37207960d1c072ad"
+          }
+        },
+        {
+          "client_id": "14003724817-iloisnokr6quhh57bja7vvlj83hj3jr7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAetbET-n9aq4vPb9X35xWIN8zxVMA-YAk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "14003724817-iloisnokr6quhh57bja7vvlj83hj3jr7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
