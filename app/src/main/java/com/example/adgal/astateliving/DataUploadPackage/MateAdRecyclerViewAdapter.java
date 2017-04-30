@@ -1,6 +1,5 @@
 package com.example.adgal.astateliving.DataUploadPackage;
 
-
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
-public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerViewAdapter.ViewHolder> {
+public class MateAdRecyclerViewAdapter extends RecyclerView.Adapter<MateAdRecyclerViewAdapter.ViewHolder> {
 
     private List<RoomMate> roomMates;
 
@@ -59,7 +58,7 @@ public class NoteRecyclerViewAdapter extends RecyclerView.Adapter<NoteRecyclerVi
         }
     }
 
-    public NoteRecyclerViewAdapter(List<RoomMate> roomMates) {
+    public MateAdRecyclerViewAdapter(List<RoomMate> roomMates) {
         this.roomMates = roomMates;
     }
 

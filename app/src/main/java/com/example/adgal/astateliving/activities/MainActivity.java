@@ -22,21 +22,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.adgal.astateliving.DataUploadPackage.AdFragment;
+import com.example.adgal.astateliving.DataUploadPackage.RoomAdFragment;
 import com.example.adgal.astateliving.fragments.ContactUs;
+import com.example.adgal.astateliving.fragments.DriveListFragment;
 import com.example.adgal.astateliving.fragments.ManagerInputFragment;
-import com.example.adgal.astateliving.fragments.ManagerLoginFragment;
 import com.example.adgal.astateliving.fragments.ProfileFragment;
 import com.example.adgal.astateliving.R;
+import com.example.adgal.astateliving.fragments.RequestDriveFragment;
 import com.example.adgal.astateliving.fragments.RoomMateFragment;
 import com.facebook.login.LoginManager;
-import com.facebook.login.widget.ProfilePictureView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity
 //        profilePictureView.setProfileId(fbId);
         populateList();
 
-        AdFragment adList = new AdFragment();
+        RoomAdFragment adList = new RoomAdFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.content_main, adList).addToBackStack(null).commit();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onClose() {
-        AdFragment adList = new AdFragment();
+        RoomAdFragment adList = new RoomAdFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_main, adList).addToBackStack(null).commit();
     }
@@ -203,20 +202,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_watchlist) {
-            // Handle the camera action
+            RoomAdFragment roomAdFragment = new RoomAdFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().add(R.id.content_main, roomAdFragment).commit();
         } else if (id == R.id.nav_notifications) {
 
         } else if (id == R.id.nav_room_mate) {
-//            NewNeedRoomMateFrag needRoomMateFragment = new NewNeedRoomMateFrag();
             RoomMateFragment roomMateFragment = new RoomMateFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().add(R.id.content_main, roomMateFragment).commit();
-        } else if (id == R.id.nav_mgr_login) {
-            ManagerLoginFragment managerLoginFragment = new ManagerLoginFragment();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_main, managerLoginFragment).commit();
-
-        } else if (id == R.id.nav_log_out) {
+        }else if (id == R.id.nav_log_out) {
             LoginManager.getInstance().logOut();
             Intent logOutIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(logOutIntent);
@@ -233,6 +228,15 @@ public class MainActivity extends AppCompatActivity
             ManagerInputFragment managerInputFragment = new ManagerInputFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_main, managerInputFragment).commit();
+        }else if (id == R.id.request_drive){
+            RequestDriveFragment requestDriveFragment = RequestDriveFragment.newInstance(null);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main, requestDriveFragment).commit();
+        }
+        else if(id == R.id.nav_see_drive_ad){
+            DriveListFragment driveListFragment = new DriveListFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main, driveListFragment).commit();
         }
 
 

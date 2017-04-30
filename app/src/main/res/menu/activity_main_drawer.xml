@@ -5,28 +5,28 @@
         <item
             android:id="@+id/nav_watchlist"
             android:icon="@drawable/visible_48px"
-            android:title="My Watchlist" />
+            android:title="@string/my_watchlist" />
         <item
             android:id="@+id/nav_notifications"
             android:icon="@drawable/notifications"
-            android:title="Notifications" />
+            android:title="@string/notifications" />
         <item
             android:id="@+id/nav_room_mate"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Need Room Mate" />
-        <item
-            android:id="@+id/nav_mgr_login"
-            android:icon="@drawable/manager_48px"
-            android:title="Manager Login"/>
+            android:title="@string/need_room_mate" />
         <item
             android:id="@+id/nav_mgr_input"
             android:icon="@drawable/manager_48px"
-            android:title="Manager Input"/>
+            android:title="@string/manager_input"/>
 
         <item
-            android:id="@+id/nav_search"
+            android:id="@+id/request_drive"
             android:icon="@drawable/search_48px"
-            android:title="My Search" />
+            android:title="@string/request_drive" />
+        <item
+            android:id="@+id/nav_see_drive_ad"
+            android:icon="@drawable/manager_48px"
+            android:title="See Drive Ads"/>
     </group>
 
     <item android:title="Settings">

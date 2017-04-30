@@ -1,7 +1,6 @@
 package com.example.adgal.astateliving.DataUploadPackage;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import android.view.ViewGroup;
 
 import com.example.adgal.astateliving.R;
 import com.example.adgal.astateliving.activities.LoginActivity;
-import com.example.adgal.astateliving.activities.MainActivity;
 import com.example.adgal.astateliving.fragments.RoomMateFragment;
 import com.example.adgal.astateliving.model.RoomMate;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,9 +36,9 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AdFragment extends Fragment implements DeletionListener {
+public class RoomAdFragment extends Fragment implements DeletionListener {
     DatabaseReference database;
-    NoteRecyclerViewAdapter adapter;
+    MateAdRecyclerViewAdapter adapter;
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
@@ -51,7 +49,7 @@ public class AdFragment extends Fragment implements DeletionListener {
     FloatingActionButton fabSign;
     RecyclerView recyclerView;
 
-    public AdFragment() {
+    public RoomAdFragment() {
         // Required empty public constructor
     }
 
@@ -60,7 +58,7 @@ public class AdFragment extends Fragment implements DeletionListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_ad, container, false);
+        View view = inflater.inflate(R.layout.room_fragment_ad, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         fabAddItem = (FloatingActionButton) view.findViewById(R.id.fabSaveItem);
@@ -85,7 +83,7 @@ public class AdFragment extends Fragment implements DeletionListener {
         });
 
         database = FirebaseDatabase.getInstance().getReference();
-        adapter = new NoteRecyclerViewAdapter(Collections.<RoomMate>emptyList());
+        adapter = new MateAdRecyclerViewAdapter(Collections.<RoomMate>emptyList());
 
         //  add these just after setContentView(R.layout.activity_main);
         // Initialize Firebase Auth
@@ -118,7 +116,7 @@ public class AdFragment extends Fragment implements DeletionListener {
             }
         });
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(
-                new NoteItemTouchHelperCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this));
+                new MateAdItemTouchHelperCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this));
         itemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
         return view;

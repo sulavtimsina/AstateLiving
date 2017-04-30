@@ -69,7 +69,7 @@ public class ProfileFragment extends Fragment {
 
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        databaseReference.child("users").child("users").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("users").child("users").child(currentUid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {

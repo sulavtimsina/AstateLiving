@@ -5,16 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 
-public class NoteItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
+public class MateAdItemTouchHelperCallback extends ItemTouchHelper.SimpleCallback {
     private static final float ALPHA_FULL = 1.0f;
     private DeletionListener listener;
 
     @SuppressWarnings("unused")
-    private NoteItemTouchHelperCallback(int dragDirs, int swipeDirs) {
+    private MateAdItemTouchHelperCallback(int dragDirs, int swipeDirs) {
         super(dragDirs, swipeDirs);
     }
 
-    public NoteItemTouchHelperCallback(int dragDirs, int swipeDirs, DeletionListener listener) {
+    public MateAdItemTouchHelperCallback(int dragDirs, int swipeDirs, DeletionListener listener) {
         super(dragDirs, swipeDirs);
         this.listener = listener;
     }

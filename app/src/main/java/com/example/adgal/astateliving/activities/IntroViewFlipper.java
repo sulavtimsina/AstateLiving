@@ -85,4 +85,6 @@ public class IntroViewFlipper extends AppCompatActivity {
         return super.onTouchEvent(touchevent);
     }
 
+    public void selectDate(View view) {
+    }
 }

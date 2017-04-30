@@ -12,26 +12,26 @@
         android:padding="@dimen/activity_horizontal_margin">
 
         <TextView
-            android:id="@+id/et_title"
+            android:id="@+id/tv_name_ad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            tools:text="Note title" />
+            tools:text="Requester Name" />
 
         <TextView
-            android:id="@+id/et_description"
+            android:id="@+id/tv_from"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-            tools:text="Note description" />
+            tools:text="Starting Point" />
         <TextView
-            android:id="@+id/et_rent"
+            android:id="@+id/tv_to"
             android:layout_marginTop="8dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Rent"  />
+            tools:text="Destination"  />
 
     </LinearLayout>
 

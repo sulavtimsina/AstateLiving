@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.adgal.astateliving.DataUploadPackage.AdFragment;
+import com.example.adgal.astateliving.DataUploadPackage.RoomAdFragment;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -122,9 +122,11 @@ public class RoomMateFragment extends Fragment {
                     roomMate = new RoomMate();
                     roomMate.setUid(database.child("notes").push().getKey());
                     roomMate.setGoogleUid(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                    roomMate.setLat(mPlace.getLatLng().latitude);
-                    roomMate.setLng(mPlace.getLatLng().longitude);
-                    roomMate.setPlaceId(mPlace.getId());
+                    if(mPlace != null){
+                        roomMate.setLat(mPlace.getLatLng().latitude);
+                        roomMate.setLng(mPlace.getLatLng().longitude);
+                        roomMate.setPlaceId(mPlace.getId());
+                    }
                 }
                 roomMate.setTitle(titleTextView.getText().toString());
                 roomMate.setDescription(descriptionTextView.getText().toString());
@@ -135,7 +137,7 @@ public class RoomMateFragment extends Fragment {
                 database.child("notes").child(roomMate.getUid()).setValue(roomMate);
 
                 //go to previous list of Ads
-                AdFragment adList = new AdFragment();
+                RoomAdFragment adList = new RoomAdFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_main, adList).commit();
             }
