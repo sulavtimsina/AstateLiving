@@ -39,7 +39,6 @@ public class MateAdRecyclerViewAdapter extends RecyclerView.Adapter<MateAdRecycl
             this.roomMate = roomMate;
             titleTextView.setText(roomMate.getTitle());
             descriptionTextView.setText(roomMate.getDescription());
-//            rentTextView.setText(Integer.toString(roomMate.getRent()));
         }
 
         @Override

@@ -4,6 +4,8 @@ package com.example.adgal.astateliving.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +89,6 @@ public class RequestDriveFragment extends Fragment implements View.OnClickListen
                 break;
         }
 
-
     }
 
     @Override
@@ -129,5 +130,18 @@ public class RequestDriveFragment extends Fragment implements View.OnClickListen
 
             }
         });
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //onDestroyView is used as per:
+        //http://stackoverflow.com/questions/41613037/google-placeautocompletefragment-crashes-with-error
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        Fragment fragmentFrom = (fm.findFragmentById(R.id.place_autocomplete_fragment_from));
+        Fragment fragmentTo = (fm.findFragmentById(R.id.place_autocomplete_fragment_to));
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.remove(fragmentFrom);
+        ft.remove(fragmentTo);
+        ft.commit();
     }
 }

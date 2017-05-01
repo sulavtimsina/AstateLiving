@@ -204,13 +204,13 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_watchlist) {
             RoomAdFragment roomAdFragment = new RoomAdFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().add(R.id.content_main, roomAdFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_main, roomAdFragment).commit();
         } else if (id == R.id.nav_notifications) {
 
         } else if (id == R.id.nav_room_mate) {
             RoomMateFragment roomMateFragment = new RoomMateFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().add(R.id.content_main, roomMateFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_main, roomMateFragment).commit();
         }else if (id == R.id.nav_log_out) {
             LoginManager.getInstance().logOut();
             Intent logOutIntent = new Intent(MainActivity.this, LoginActivity.class);

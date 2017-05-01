@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,9 @@ import android.widget.Toast;
 
 import com.example.adgal.astateliving.DataUploadPackage.RoomAdFragment;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.GeoDataApi;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
@@ -90,6 +93,7 @@ public class RoomMateFragment extends Fragment {
         return view;
     }
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -118,6 +122,10 @@ public class RoomMateFragment extends Fragment {
         fabSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(mPlace == null){
+                    Toast.makeText(getActivity(), "Please select the address,once again if already specified!",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if (roomMate == null) {
                     roomMate = new RoomMate();
                     roomMate.setUid(database.child("notes").push().getKey());
@@ -137,11 +145,24 @@ public class RoomMateFragment extends Fragment {
                 database.child("notes").child(roomMate.getUid()).setValue(roomMate);
 
                 //go to previous list of Ads
-                RoomAdFragment adList = new RoomAdFragment();
+//                RoomAdFragment adList = new RoomAdFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_main, adList).commit();
+//                fragmentManager.beginTransaction().replace(R.id.content_main, adList).commit();
+                fragmentManager.beginTransaction().detach(getParentFragment());
             }
         });
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //onDestroyView is used as per:
+        //http://stackoverflow.com/questions/41613037/google-placeautocompletefragment-crashes-with-error
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        Fragment fragment = (fm.findFragmentById(R.id.place_autocomplete_fragment));
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.remove(fragment);
+        ft.commit();
     }
 }

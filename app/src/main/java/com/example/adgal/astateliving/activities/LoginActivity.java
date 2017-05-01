@@ -232,7 +232,7 @@ public class LoginActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot != null)
                     for(DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
-                        User user =  noteDataSnapshot.getValue(User.class);
+//                        User user =  noteDataSnapshot.getValue(User.class);
 
                     }
                 else {

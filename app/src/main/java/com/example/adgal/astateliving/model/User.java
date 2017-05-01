@@ -12,6 +12,56 @@ public class User implements Parcelable {
     String uid;
     String phone;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (isADriver() != user.isADriver()) return false;
+        if (getAge() != user.getAge()) return false;
+        if (getUid() != null ? !getUid().equals(user.getUid()) : user.getUid() != null)
+            return false;
+        if (getPhone() != null ? !getPhone().equals(user.getPhone()) : user.getPhone() != null)
+            return false;
+        if (getAboutMe() != null ? !getAboutMe().equals(user.getAboutMe()) : user.getAboutMe() != null)
+            return false;
+        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null)
+            return false;
+        if (getAptName() != null ? !getAptName().equals(user.getAptName()) : user.getAptName() != null)
+            return false;
+        if (getFullName() != null ? !getFullName().equals(user.getFullName()) : user.getFullName() != null)
+            return false;
+        return getGender() != null ? getGender().equals(user.getGender()) : user.getGender() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getUid() != null ? getUid().hashCode() : 0;
+        result = 31 * result + (getPhone() != null ? getPhone().hashCode() : 0);
+        result = 31 * result + (getAboutMe() != null ? getAboutMe().hashCode() : 0);
+        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + (getAptName() != null ? getAptName().hashCode() : 0);
+        result = 31 * result + (getFullName() != null ? getFullName().hashCode() : 0);
+        result = 31 * result + (isADriver() ? 1 : 0);
+        result = 31 * result + (getGender() != null ? getGender().hashCode() : 0);
+        result = 31 * result + getAge();
+        return result;
+    }
+
+    public String getAboutMe() {
+
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
+
+    String aboutMe;
+
     public String getPhone() {
         return phone;
     }
@@ -97,45 +147,10 @@ public class User implements Parcelable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-
-        User user = (User) o;
-
-        if (isADriver() != user.isADriver()) return false;
-        if (getAge() != user.getAge()) return false;
-        if (getUid() != null ? !getUid().equals(user.getUid()) : user.getUid() != null)
-            return false;
-        if (getPhone() != null ? !getPhone().equals(user.getPhone()) : user.getPhone() != null)
-            return false;
-        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null)
-            return false;
-        if (getAptName() != null ? !getAptName().equals(user.getAptName()) : user.getAptName() != null)
-            return false;
-        if (getFullName() != null ? !getFullName().equals(user.getFullName()) : user.getFullName() != null)
-            return false;
-        return getGender() != null ? getGender().equals(user.getGender()) : user.getGender() == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = getUid() != null ? getUid().hashCode() : 0;
-        result = 31 * result + (getPhone() != null ? getPhone().hashCode() : 0);
-        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
-        result = 31 * result + (getAptName() != null ? getAptName().hashCode() : 0);
-        result = 31 * result + (getFullName() != null ? getFullName().hashCode() : 0);
-        result = 31 * result + (isADriver() ? 1 : 0);
-        result = 31 * result + (getGender() != null ? getGender().hashCode() : 0);
-        result = 31 * result + getAge();
-        return result;
-    }
-
-    @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.uid);
         dest.writeString(this.phone);
+        dest.writeString(this.aboutMe);
         dest.writeString(this.email);
         dest.writeString(this.aptName);
         dest.writeString(this.fullName);
@@ -147,6 +162,7 @@ public class User implements Parcelable {
     protected User(Parcel in) {
         this.uid = in.readString();
         this.phone = in.readString();
+        this.aboutMe = in.readString();
         this.email = in.readString();
         this.aptName = in.readString();
         this.fullName = in.readString();

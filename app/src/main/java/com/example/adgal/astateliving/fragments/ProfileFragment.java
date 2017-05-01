@@ -1,13 +1,16 @@
 package com.example.adgal.astateliving.fragments;
 
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,12 +30,17 @@ import static android.R.attr.data;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener{
 
     NavigationView navigationView;
     ImageView profilePic;
-    TextView profileName, profileEmail;
+    TextView profileName, profileEmail, aboutMe;
     TextView profileAge, profileGender,profileAptName;
+    Button btnSave;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    private TextView profilePhone;
+    User user;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -49,7 +57,11 @@ public class ProfileFragment extends Fragment {
         profileEmail = (TextView) view.findViewById(R.id.user_profile_email);
         profileAge= (TextView) view.findViewById(R.id.et_Age);
         profileGender = (TextView) view.findViewById(R.id.et_gender);
+        profilePhone = (TextView) view.findViewById(R.id.et_phone);
         profileAptName = (TextView) view.findViewById(R.id.et_apt_name_profile);
+        btnSave = (Button) view.findViewById(R.id.btnSaveProfile);
+        btnSave.setOnClickListener(this);
+        aboutMe = (TextView) view.findViewById(R.id.etAboutMe);
         return view;
     }
 
@@ -69,18 +81,19 @@ public class ProfileFragment extends Fragment {
 
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Log.e("UID",currentUid);
         databaseReference.child("users").child("users").child(currentUid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
-                    User user =  noteDataSnapshot.getValue(User.class);
+                    user =  noteDataSnapshot.getValue(User.class);
                     if(user!=null) {
                         profileAge.setText(Integer.toString(user.getAge()));
                         profileGender.setText(user.getGender());
                         profileAptName.setText(user.getAptName());
+                        aboutMe.setText(user.getAboutMe());
                     }
                 }
-
             }
 
             @Override
@@ -88,7 +101,31 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+    }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnSaveProfile:
 
+                firebaseDatabase = FirebaseDatabase.getInstance();
+                databaseReference = firebaseDatabase.getReference();
+                if(user == null)
+                {
+                    user = new User();
+//                    user.setUid(databaseReference.child("users").child("users").push().getKey());
+                    user.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                }
+                user.setEmail(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                user.setAge(Integer.parseInt(profileAge.getText().toString()));
+                user.setAptName(profileAptName.getText().toString());
+                user.setFullName(profileName.getText().toString());
+                user.setPhone(profilePhone.getText().toString());
+                user.setAboutMe(aboutMe.getText().toString());
+                databaseReference.child("users").child("users").child(user.getUid()).setValue(user);
+                break;
+            default:
+                break;
+        }
     }
 }

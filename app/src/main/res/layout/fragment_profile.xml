@@ -7,14 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<ImageView-->
-            <!--android:id="@+id/header_cover_image"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="200dp"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:background="@color/cardview_light_background"-->
-             <!--/>-->
-
         <ImageButton
             android:id="@+id/user_profile_photo"
             android:layout_width="120dp"
@@ -140,7 +132,7 @@
             <Button
                 android:text="Save"
                 android:layout_margin="4dp"
-                android:id="@+id/btnSave"
+                android:id="@+id/btnSaveProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
