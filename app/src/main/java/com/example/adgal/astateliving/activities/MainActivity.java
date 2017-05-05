@@ -7,13 +7,16 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +33,7 @@ import com.example.adgal.astateliving.fragments.ProfileFragment;
 import com.example.adgal.astateliving.R;
 import com.example.adgal.astateliving.fragments.RequestDriveFragment;
 import com.example.adgal.astateliving.fragments.RoomMateFragment;
+import com.example.adgal.astateliving.utils.OnFragmentCloseListener;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,14 +44,13 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-                    ContactUs.OnFragmentCloseListener{
+        OnFragmentCloseListener{
 
     NavigationView navigationView;
     String fbName, fbEmail, fbId;
     TextView tvNavName, tvNavEmail;
     ImageView ivProfilePic;
     View headerView;
-//    ProfilePictureView profilePictureView;
 
 
     @Override
@@ -57,7 +60,6 @@ public class MainActivity extends AppCompatActivity
         initComponents();
 
         setEmailName();
-//        profilePictureView.setProfileId(fbId);
         populateList();
 
         RoomAdFragment adList = new RoomAdFragment();
@@ -87,14 +89,10 @@ public class MainActivity extends AppCompatActivity
         fbName = getIntent().getStringExtra("name");
         fbEmail = getIntent().getStringExtra("email");
         fbId = getIntent().getStringExtra("id");
-//        getFacebookProfilePicture(fbId);
-
 
         //updating email n name in header
          headerView = navigationView.getHeaderView(0);
         tvNavName = (TextView) headerView.findViewById(R.id.tvNavName);
-
-//        profilePictureView = (ProfilePictureView) headerView.findViewById(R.id.profilePicView);
 
         if(!TextUtils.isEmpty(fbName))
             tvNavName.setText(fbName);
@@ -112,15 +110,29 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        //disableNavBarItems();
     }
 
     @Override
     public void onClose() {
+        FragmentManager fm = getSupportFragmentManager();
+
+        for(int entry = 0; entry < fm.getBackStackEntryCount(); entry++){
+            Log.i("Fragment Count", "Found fragment: " + fm.getBackStackEntryAt(entry).getId());
+        }
+//        fm.popBackStack();
+
         RoomAdFragment adList = new RoomAdFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_main, adList).addToBackStack(null).commit();
+
+    }
+
+    @Override
+    public void onClose(Fragment fragment) {
+        FragmentManager fm=getSupportFragmentManager();
+        fm.beginTransaction().detach(fragment).commit();
+        RoomAdFragment adList = new RoomAdFragment();
+        fm.beginTransaction().replace(R.id.content_main, adList).addToBackStack(null).commit();
     }
 
 
@@ -144,7 +156,6 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Bitmap s) {
             super.onPostExecute(s);
-//            ivProfilePic.setImageBitmap(s);
         }
     }
 
@@ -205,9 +216,7 @@ public class MainActivity extends AppCompatActivity
             RoomAdFragment roomAdFragment = new RoomAdFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_main, roomAdFragment).commit();
-        } else if (id == R.id.nav_notifications) {
-
-        } else if (id == R.id.nav_room_mate) {
+        }  else if (id == R.id.nav_room_mate) {
             RoomMateFragment roomMateFragment = new RoomMateFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_main, roomMateFragment).commit();
@@ -223,7 +232,7 @@ public class MainActivity extends AppCompatActivity
         }else if (id == R.id.nav_profile) {
             ProfileFragment profileFragment = new ProfileFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_main, profileFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_main, profileFragment).addToBackStack(null).commit();
         }else if (id == R.id.nav_mgr_input){
             ManagerInputFragment managerInputFragment = new ManagerInputFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -239,6 +248,7 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_main, driveListFragment).commit();
         }
 
+        item.setCheckable(true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

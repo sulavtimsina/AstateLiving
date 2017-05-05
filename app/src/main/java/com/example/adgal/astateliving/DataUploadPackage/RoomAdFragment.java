@@ -1,6 +1,7 @@
 package com.example.adgal.astateliving.DataUploadPackage;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.example.adgal.astateliving.R;
 import com.example.adgal.astateliving.activities.LoginActivity;
+import com.example.adgal.astateliving.fragments.ContactUs;
 import com.example.adgal.astateliving.fragments.RoomMateFragment;
 import com.example.adgal.astateliving.model.RoomMate;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,17 +50,18 @@ public class RoomAdFragment extends Fragment implements DeletionListener {
     FloatingActionButton fabAddItem;
     FloatingActionButton fabSign;
     RecyclerView recyclerView;
+    View view;
+
 
     public RoomAdFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.room_fragment_ad, container, false);
+        view = inflater.inflate(R.layout.room_fragment_ad, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         fabAddItem = (FloatingActionButton) view.findViewById(R.id.fabSaveItem);
@@ -120,6 +123,12 @@ public class RoomAdFragment extends Fragment implements DeletionListener {
         itemTouchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        view = null;
     }
 
     @Override

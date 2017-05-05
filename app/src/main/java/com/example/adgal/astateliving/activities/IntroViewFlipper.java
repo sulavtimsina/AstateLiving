@@ -61,20 +61,17 @@ public class IntroViewFlipper extends AppCompatActivity {
         switch (touchevent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 initialX = touchevent.getX();
-                Log.d("down",initialX+"");
+                Log.i("down",initialX+"");
                 break;
             case MotionEvent.ACTION_UP:
                  finalX = touchevent.getX();
-                Log.d("up",finalX+"");
+                Log.i("up",finalX+"");
                 float deltaX = finalX - initialX;
                 if (deltaX > 0) {
                     viewFlipper.setInAnimation(this, R.anim.in_left);
                     viewFlipper.setOutAnimation(this, R.anim.out_right);
                     viewFlipper.showPrevious();
-
                 } else {
-//                    if (viewFlipper.getDisplayedChild() == 0)
-//                        break;
                     viewFlipper.setInAnimation(this, R.anim.in_right);
                     viewFlipper.setOutAnimation(this, R.anim.out_left);
 
@@ -85,6 +82,4 @@ public class IntroViewFlipper extends AppCompatActivity {
         return super.onTouchEvent(touchevent);
     }
 
-    public void selectDate(View view) {
-    }
 }

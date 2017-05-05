@@ -7,17 +7,9 @@
             android:icon="@drawable/visible_48px"
             android:title="@string/my_watchlist" />
         <item
-            android:id="@+id/nav_notifications"
-            android:icon="@drawable/notifications"
-            android:title="@string/notifications" />
-        <item
             android:id="@+id/nav_room_mate"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/need_room_mate" />
-        <item
-            android:id="@+id/nav_mgr_input"
-            android:icon="@drawable/manager_48px"
-            android:title="@string/manager_input"/>
 
         <item
             android:id="@+id/request_drive"
@@ -27,6 +19,10 @@
             android:id="@+id/nav_see_drive_ad"
             android:icon="@drawable/manager_48px"
             android:title="See Drive Ads"/>
+        <item
+            android:id="@+id/nav_mgr_input"
+            android:icon="@drawable/manager_48px"
+            android:title="@string/manager_input"/>
     </group>
 
     <item android:title="Settings">

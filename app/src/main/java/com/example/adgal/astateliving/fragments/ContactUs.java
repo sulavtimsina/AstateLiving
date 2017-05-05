@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.adgal.astateliving.R;
 import com.example.adgal.astateliving.model.Message;
 import com.example.adgal.astateliving.model.User;
+import com.example.adgal.astateliving.utils.OnFragmentCloseListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,10 +45,6 @@ public class ContactUs extends Fragment {
     public ContactUs() {
         // Required empty public constructor
     }
-    // Container Activity(MainActivity) must implement this interface
-    public interface OnFragmentCloseListener {
-        public void onClose();
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -58,9 +55,8 @@ public class ContactUs extends Fragment {
             onFragmentCloseListener = (OnFragmentCloseListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
+                    + " must implement OnFragmentCloseListener");
         }
-
     }
 
     @Override
@@ -122,14 +118,16 @@ public class ContactUs extends Fragment {
     private void populatePhoneNumber() {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        databaseReference.child("users").child("users").child(currentUid).addValueEventListener(new ValueEventListener() {
+        databaseReference.child("users").child("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
                     User user =  noteDataSnapshot.getValue(User.class);
+                    if(user.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail()))
                     if(user.getPhone() != null) {
                         phone.setEnabled(false);
                         ((TextView)getView().findViewById(R.id.phoneContact)).setText(user.getPhone());
+                        break;
                     }
                 }
             }

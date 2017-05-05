@@ -1,6 +1,7 @@
 package com.example.adgal.astateliving.fragments;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.adgal.astateliving.DataUploadPackage.RoomAdFragment;
+import com.example.adgal.astateliving.utils.OnFragmentCloseListener;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.GeoDataApi;
 import com.google.android.gms.location.places.Place;
@@ -46,7 +49,9 @@ public class RoomMateFragment extends Fragment {
     private Button btnAddDetail;
     private PlaceAutocompleteFragment autocompleteFragment;
     private Place mPlace;
-    private FloatingActionButton fabSave;
+    private FloatingActionButton fabSave, fabCancel;
+    OnFragmentCloseListener onFragmentCloseListener;
+    private static View view;
 
     public RoomMateFragment() {
         // Required empty public constructor
@@ -63,23 +68,60 @@ public class RoomMateFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            onFragmentCloseListener = (OnFragmentCloseListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnRoomMateFragCloseListener");
+        }
+    }
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        PlaceAutocompleteFragment p = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+//        Fragment fragmentById = getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        view = null;
+        autocompleteFragment=null;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_room_mate, container, false);
+        view = inflater.inflate(R.layout.fragment_room_mate, container, false);
         titleTextView = (TextView) view.findViewById(R.id.et_title);
         descriptionTextView = (TextView) view.findViewById(R.id.et_description);
         rentTextView = (TextView) view.findViewById(R.id.etRent);
         fabSave = (FloatingActionButton) view.findViewById(R.id.fabSaveItem);
-        autocompleteFragment = (PlaceAutocompleteFragment)getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        fabCancel = (FloatingActionButton) view.findViewById(R.id.fabCross);
 
+//        if (view != null){
+//            ViewGroup parent = (ViewGroup) view.getParent();
+//            if(parent != null){
+//                parent.removeView(view);
+//            }
+//            try{
+//                view = inflater.inflate(R.layout.fragment_room_mate, container, false);
+//                titleTextView = (TextView) view.findViewById(R.id.et_title);
+//                descriptionTextView = (TextView) view.findViewById(R.id.et_description);
+//                rentTextView = (TextView) view.findViewById(R.id.etRent);
+//                fabSave = (FloatingActionButton) view.findViewById(R.id.fabSaveItem);
+//                fabCancel = (FloatingActionButton) view.findViewById(R.id.fabCross);
+//            }catch (InflateException e){
+//                Log.e("PlaceAutoFragment", "Map is already there,just return view as it is");
+//            }
+//        }
+        autocompleteFragment = (PlaceAutocompleteFragment)getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         //handle fragment arguments
         Bundle bundle = getArguments();
         if(bundle != null){
@@ -89,11 +131,16 @@ public class RoomMateFragment extends Fragment {
             rentTextView.setText(Integer.toString(roomMate.getRent()));
             autocompleteFragment.setText(roomMate.getPlaceName());
         }
-
         return view;
     }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-
+    }
+    // This method is called after the parent Activity's onCreate() method has completed.
+    // Accessing the view hierarchy of the parent activity must be done in the onActivityCreated.
+    // At this point, it is safe to search for activity View objects by their ID, for example.
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -144,25 +191,21 @@ public class RoomMateFragment extends Fragment {
 
                 database.child("notes").child(roomMate.getUid()).setValue(roomMate);
 
+                onFragmentCloseListener.onClose(RoomMateFragment.this);
                 //go to previous list of Ads
 //                RoomAdFragment adList = new RoomAdFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 //                fragmentManager.beginTransaction().replace(R.id.content_main, adList).commit();
-                fragmentManager.beginTransaction().detach(getParentFragment());
+//                fragmentManager.beginTransaction().detach(getParentFragment());
             }
         });
 
-    }
+        fabCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFragmentCloseListener.onClose(RoomMateFragment.this);
+            }
+        });
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        //onDestroyView is used as per:
-        //http://stackoverflow.com/questions/41613037/google-placeautocompletefragment-crashes-with-error
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        Fragment fragment = (fm.findFragmentById(R.id.place_autocomplete_fragment));
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.remove(fragment);
-        ft.commit();
     }
 }

@@ -1,5 +1,7 @@
 package com.example.adgal.astateliving.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.adgal.astateliving.R;
 import com.example.adgal.astateliving.model.User;
+import com.example.adgal.astateliving.utils.OnFragmentCloseListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +35,7 @@ import static android.R.attr.data;
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener{
 
+
     NavigationView navigationView;
     ImageView profilePic;
     TextView profileName, profileEmail, aboutMe;
@@ -40,12 +44,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private TextView profilePhone;
-    User user;
+    User user, user2;
+    boolean userAlreadyPresent;
+    private Button btnClose;
+    OnFragmentCloseListener onFragmentCloseListener;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,11 +66,25 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         profilePhone = (TextView) view.findViewById(R.id.et_phone);
         profileAptName = (TextView) view.findViewById(R.id.et_apt_name_profile);
         btnSave = (Button) view.findViewById(R.id.btnSaveProfile);
+        btnClose = (Button)view.findViewById(R.id.btnCloseProfile);
+        btnClose.setOnClickListener(this);
         btnSave.setOnClickListener(this);
         aboutMe = (TextView) view.findViewById(R.id.etAboutMe);
         return view;
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            onFragmentCloseListener = (OnFragmentCloseListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentCloseListener");
+        }
+    }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -81,13 +101,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
 
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.e("UID",currentUid);
-        databaseReference.child("users").child("users").child(currentUid).addValueEventListener(new ValueEventListener() {
+        Log.e("sulav 83 uid=",currentUid);
+        databaseReference.child("users").child("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
                     user =  noteDataSnapshot.getValue(User.class);
-                    if(user!=null) {
+                    Log.i("sulav 89 email",user.getEmail());
+                    if(user!=null && user.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())) {
+                        user2 = user;
+                        userAlreadyPresent = true;
                         profileAge.setText(Integer.toString(user.getAge()));
                         profileGender.setText(user.getGender());
                         profileAptName.setText(user.getAptName());
@@ -107,22 +130,23 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnSaveProfile:
-
                 firebaseDatabase = FirebaseDatabase.getInstance();
                 databaseReference = firebaseDatabase.getReference();
-                if(user == null)
-                {
-                    user = new User();
-//                    user.setUid(databaseReference.child("users").child("users").push().getKey());
-                    user.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                if(!userAlreadyPresent) {
+                    user2 = new User();
+                    user2.setUid(databaseReference.child("users").child("users").push().getKey());
                 }
-                user.setEmail(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                user.setAge(Integer.parseInt(profileAge.getText().toString()));
-                user.setAptName(profileAptName.getText().toString());
-                user.setFullName(profileName.getText().toString());
-                user.setPhone(profilePhone.getText().toString());
-                user.setAboutMe(aboutMe.getText().toString());
-                databaseReference.child("users").child("users").child(user.getUid()).setValue(user);
+
+                user2.setEmail(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                user2.setAge(Integer.parseInt(profileAge.getText().toString()));
+                user2.setAptName(profileAptName.getText().toString());
+                user2.setFullName(profileName.getText().toString());
+                user2.setPhone(profilePhone.getText().toString());
+                user2.setAboutMe(aboutMe.getText().toString());
+                databaseReference.child("users").child("users").child(user2.getUid()).setValue(user2);
+                break;
+            case R.id.btnCloseProfile:
+                onFragmentCloseListener.onClose(this);
                 break;
             default:
                 break;
